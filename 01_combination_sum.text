@@ -1,0 +1,44 @@
+Start: idx=0, tar=8, combin=[]
+ |
+ └─ push 2 → [2], tar=6
+      |
+      |-- S (idx=1, element=3)
+      |     └─ push 3 → [2,3], tar=3
+      |           |
+      |           |-- S → push 5 → [2,3,5], tar=-2 ❌
+      |           |-- M → push 3 → [2,3,3], tar=0 ✅ FOUND
+      |           |-- E → idx=2 → try 5 → [2,3,5], tar=-2 ❌
+      |
+      |-- M (stay idx=0, element=2)
+      |     └─ push 2 → [2,2], tar=4
+      |           |
+      |           |-- S (idx=1, element=3)
+      |           |     └─ push 3 → [2,2,3], tar=1 ❌
+      |           |
+      |           |-- M (stay idx=0)
+      |           |     └─ push 2 → [2,2,2], tar=2
+      |           |           |
+      |           |           |-- S → [2,2,2,3], tar=-1 ❌
+      |           |           |-- M → [2,2,2,2], tar=0 ✅ FOUND
+      |           |           |-- E → idx=1 → no solution
+      |           |
+      |           |-- E (idx=1) → try 3 or 5 → no solution
+      |
+      |-- E (skip idx=0 → idx=1, element=3)
+            └─ push 3 → [3], tar=5
+                  |
+                  |-- S (idx=2, element=5)
+                  |     └─ push 5 → [3,5], tar=0 ✅ FOUND
+                  |
+                  |-- M (stay idx=1)
+                  |     └─ push 3 → [3,3], tar=2
+                  |           |-- S → [3,3,5], tar=-3 ❌
+                  |           |-- M → [3,3,3], tar=-1 ❌
+                  |           |-- E → idx=2 → no solution
+                  |
+                  |-- E (idx=2) → try 5 → tar too small
+
+                   Valid combination
+                   [2,3,3]
+                   [2,2,2,2]
+                    [3,5]
